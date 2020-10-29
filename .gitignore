@@ -6,9 +6,9 @@ bin-release/
 
 # Other files and folders
 .settings/
-# .sass-cache/
-# style.css
-# style.css.map
+.sass-cache/
+style.css
+style.css.map
 # Executables
 *.swf
 *.air
