@@ -26,3 +26,14 @@ function virusPop() {
     
     canvas.appendChild(virus); //Virus enfant de canvas 
 }
+
+// REMOVE ELEMENT ON CLICK
+document.addEventListener('click', function (e) {
+     let targetElement = e.target || e.srcElement;
+
+     if ( targetElement.classList.contains('virus') ) {
+         targetElement.remove();
+         count++
+         score.innerHTML= count;
+     }
+})
