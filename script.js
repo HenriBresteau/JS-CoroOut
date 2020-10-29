@@ -3,6 +3,56 @@ const score = document.getElementById('score');
 const days = document.getElementById('days');
 const endScreen = document.getElementById('endScreen');
 
+daysLeft = 60;
+gameOverNumber = 15;
+loopPlay = false;
+
+function start() {
+    count = 0;
+    getFaster=6000;
+    daysRemaining = daysLeft;
+
+    canvas.innerHTML='';
+    score.innerHTML = count;
+    days.innerHTML = daysRemaining;
+
+    // Etre sur que la boucle several time 
+    loopPlay ? '' : game();
+    loopPlay = true;
+
+    function game() {
+        let randomTime = Math.round( Math.random() * getFaster);
+        getFaster > 700 ? getFaster = (getFaster*0.90): '';
+
+        setTimeout( () => {
+            if ( daysRemaining === 0 ) {
+                youWin();
+            } else if ( canvas.childElementCount < gameOverNumber ){
+                console.log(canvas.childElementCount);
+                console.log(gameOverNumber );
+                virusPop();
+                game();
+            } else {
+                gameOver();
+            }
+        }, randomTime);
+    }
+
+    const gameOver = () => {
+        endScreen.innerHTML = `<div class="gameOver">Game over <br/> score : ${count} </div>`;
+        endScreen.style.visibility = 'visible';
+        endScreen.style.opacity = '1';
+        loopPlay = false;
+    };
+    const youWin = () => {
+        let accuracy = Math.round(count / daysLeft *100);
+        endScreen.innerHTML = `<div class="youWin"> WIN - Bravo ! <br/>  <span> précision : ${accuracy}% </span></div>`;
+        endScreen.style.visibility = 'visible';
+        endScreen.style.opacity = '1';
+        loopPlay = false;
+    }
+}
+
 virusPop();
 
 function virusPop() {
@@ -36,4 +86,20 @@ document.addEventListener('click', function (e) {
          count++
          score.innerHTML= count;
      }
+});
+
+// Countdown Click
+canvas.addEventListener('click', () => {
+    if (daysRemaining > 0) {
+        daysRemaining--;
+        days.innerHTML = daysRemaining;
+    }
+});
+
+endScreen.addEventListener('click', () => {
+    setTimeout( () => {
+        start();
+        endScreen.style.opacity = '0';
+        endScreen.style.visibility = 'hidden';
+    },3500)
 })
